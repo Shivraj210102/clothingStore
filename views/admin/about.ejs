@@ -1,0 +1,31 @@
+<%- include('navbar.ejs') %>
+<div class="container_fluid bg-white p-3 shadow-lg d-flex justify-content-center">
+   <form action="/admin/save_about" method="post" enctype="multipart/form-data">
+      <div class="row">
+         <div class="col-md-12 text-center">
+            <h3>※ About  Details ※</h3>
+            <hr>
+         </div>
+         <div class="mb-3 col-md-6">
+            <label>About Title</label>
+            <input type="text" name="about_title" value="<%=about.about_title%>" class="form-control">
+         </div>
+         <div class="mb-3 col-md-6">
+               <label>About Image</label>
+               <input type="file" name="about_image" class="form-control">
+         </div>
+         <div class="mb-3 col-md-12">
+               <label>About Details</label>
+               <textarea name="about_details" class="form-control" id="editor"><%=about.about_details%></textarea>
+         </div>
+         <div class="mb-3 col-md-12 text-center">
+           <h3 class="text-start">About Image :</h3>
+            <img src="/uploads/<%=about.about_image%>" class="w-50 img-thumbnail">
+         </div>
+         <div class="mb-3 col-md-12 text-center">
+            <button class="btn btn-outline-info">Save Details</button>
+         </div>
+      </div>
+   </form>
+</div>
+<%- include('footer.ejs') %>

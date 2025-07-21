@@ -1,0 +1,264 @@
+<%- include('navbar.ejs'); %>
+<div class="row text-center mt-3 mb-3">
+    <div class="col-md-12">
+        <h1>Invoice Details</h1>
+    </div>
+</div>
+<div id="priting_area" class="container my-5">
+    <!-- Invoice Header -->
+     <!-- Bootstrap CSS -->
+
+     <style>
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.invoice-header {
+    background-color: #f8b600;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.invoice-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.invoice-header p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Client and Payment Details */
+h5 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+ul.list-unstyled {
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+}
+
+ul.list-unstyled li {
+    margin-bottom: 5px;
+}
+
+.text-end {
+    text-align: right;
+}
+
+.text-capitalize {
+    text-transform: capitalize;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: #f8c400;
+    color: white;
+    font-weight: bold;
+}
+
+.table-invoice td img.product-image {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.text-start {
+    text-align: left;
+}
+
+/* Summary Section */
+.table-borderless td {
+    border: none;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+/* Footer Section */
+.bg-warning {
+    background-color: #f8c400;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.bg-warning p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+    .text-end {
+        text-align: left !important;
+    }
+
+    .table th,
+    .table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    ul.list-unstyled li {
+        font-size: 12px;
+    }
+
+    .invoice-header h2 {
+        font-size: 18px;
+    }
+}
+     </style>
+<div class="container border rounder shadow-lg">
+    <div class="row invoice-header">
+        <div class="col-md-5">
+            <h2><%=company_info.company_name%></h2>
+            <p>
+                <%=company_info.company_address%>
+            </p>
+        </div>
+        <div class="col-md-7 text-end">
+            <ul class="list-unstyled">
+                <li><strong>Order Number :</strong> #ULTRAS345<%=order.order_id%></li>
+                <li><strong>Order Date :</strong> <%=order.order_date.split("-").reverse().join("-")%></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Invoice Info Section -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5>Clinent Details</h5>
+            <ul class="list-unstyled">
+                <li><strong>Name :</strong> <%=order.customer_name%> </li>
+                <li><strong>Mobile :</strong> <%=order.customer_mobile%> </li>
+                <li><strong>Address :</strong> <%=order.customer_landmark%>, <%=order.customer_area%>, <%=order.customer_city%>, <%=order.customer_district%>, <%=order.customer_state%>, pincode - <%=order.customer_address_pincode%> </li>
+            </ul>
+        </div>
+        <div class="col-md-6 text-end">
+            <h5>Payment Method</h5>
+            <ul class="list-unstyled text-capitalize">
+                <li><strong>Payment Mode :</strong> <%=order.payment_mode%></li>
+                <li><strong>Payment :</strong> <%=order.payment_status%></li>
+                <% if(order.transaction_id) { %>
+                    <li><strong>Transaction ID :</strong> <%=order.transaction_id%></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Invoice Items Table -->
+    <table class="table table-bordered table-invoice mt-4">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Product Image</th>
+                <th>Item Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (var i=0; i<order_product.length; i++) { %> 
+            <tr>
+                <td><%=i+1%></td>
+                <td><img src="/uploads/<%=order_product[i].product_image1%>" alt="Product Image" class="product-image"></td>
+                <td class="text-start p-3">
+                    <strong><%=order_product[i].product_name%></strong><br>
+                    &nbsp;&nbsp;&nbsp;
+                    <small>
+                        <%=order_product[i].product_size%>,
+                        <%=order_product[i].product_colors%>,
+                        <%=order_product[i].product_company%>
+                    </small>
+                </td>
+                <td>&#8377; <%=order_product[i].product_price%></td>
+                <td><%=order_product[i].product_qty%></td>
+                <td>&#8377; <%=order_product[i].product_total%></td>
+            </tr>
+            <% } %>
+    </table>
+
+    <!-- Summary Section -->
+    <div class="row">
+        <!-- <div class="col-md-6">
+            <h5>Terms & Conditions</h5>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+        </div> -->
+        <div class="col-md-6"></div>
+        <div class="col-md-6 text-muted">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td class="text-end"><strong>Subtotal:</strong></td>
+                        <td class="text-end">&#8377; <%=order.order_amount%> /-</td>
+                    </tr>
+                    <!-- <tr>
+                        <td class="text-end"><strong>Tax:</strong></td>
+                        <td class="text-end">$85.99</td>
+                    </tr>
+                    <tr>
+                        <td class="text-end"><strong>Grand Total:</strong></td>
+                        <td class="text-end"><strong>$796.99</strong></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row bg-warning">
+        <div class="col-md-12 mt-1">
+            <p><%=company_info.company_mobile%> | <%=company_info.company_email%> | <%=company_info.company_address%></p>
+        </div>
+    </div>
+    </div>
+
+</div>
+    <div class="row">
+        <div class="col-md-12 text-center mt-3 mb-3">
+            <button class="btn btn-primary me-2" onclick="printin()">Print Invoice</button>
+        </div>
+    </div>
+<script>
+    function printin(){
+        var da = document.getElementById("priting_area").innerHTML;
+        document.write(da);
+        print();
+    }
+</script>
+
+  <%- include('footer.ejs'); %>

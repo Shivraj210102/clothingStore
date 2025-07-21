@@ -1,0 +1,122 @@
+<%- include('navbar.ejs'); %>
+<style>
+     .otp-box {
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            text-align: center;
+            margin: 5px;
+            display: inline-block;
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+</style>
+<section>
+  <!-- Profile Section -->
+    <div class="container my-5 border p-5 rounded shadow-lg">
+      <div class="row">
+          <!-- Profile Sidebar -->
+          <div class="col-md-3">
+              <div class="card">
+                  <div class="card-body text-center">
+                      <img src="/uploads/<%=customer.customer_image%>" class="rounded-circle mb-3" style="height: 200px; width: 200px;background-size: cover;" alt="Profile Picture">
+                      <h5 class="card-title"><%=customer.customer_name%></h5>
+                      <p class="card-text text-muted"><%=customer.customer_email%></p>
+                      <a href="/edit_profile/<%=customer.customer_id%>"><button class="btn btn-primary btn-sm">Edit Profile</button></a>
+                  </div>
+              </div>
+          </div>
+  
+          <!-- Profile Content -->
+          <div class="col-md-9">
+              <!-- Tabs -->
+              <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="true">Orders</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Passworld Change</button>
+                  </li>
+              </ul>
+  
+              <!-- Tab Content -->
+              <div class="tab-content mt-3" id="profileTabsContent">
+                  <!-- Orders Tab -->
+                  <div class="tab-pane fade show active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                      <h4>Order History</h4>
+                      <div class="list-group">
+                        <% for(var i=0; i<orderhistory.length; i++){%> 
+                          <div class="list-group-item">
+                            <div class="col-md-3">
+                                <img src="/uploads/<%=orderhistory[i].product_image1%>" class="img-thumbnail rounded mb-3" style="height: 100px; width: 100px;background-size: cover;" alt="Profile Picture">    
+                            </div>
+                            <div class="col-md-7">
+                              <h5>Order #UTLD434<%=orderhistory[i].order_det_id%></h5>
+                              <p>Product Name: <%=orderhistory[i].product_name%></p>
+                              <small>Size : <%=orderhistory[i].product_size%>, Colors : <%=orderhistory[i].product_colors%>, Quntity : <%=orderhistory[i].product_qty%></small>
+                              <!-- <a href="/order_details/<%=orderhistory[i].order_det_id%>">
+                                <button class="btn btn-sm btn-outline-primary">View Details</button>
+                              </a> -->
+                            </div>
+                            <div class="col-md-2">
+                                <strong>Rs. &#8377;<%=orderhistory[i].product_total%> /-</strong>
+                            </div>
+                          </div>
+                        <% } %>
+                      </div>
+                  </div>
+  
+                  
+                  <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <h4>Password Change</h4>
+                    <!-- Mobile Number Input -->
+                    <div class="mb-3 col-md-6">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="number" class="form-control" value="<%=customer.customer_mobile%>">
+                    </div>
+                    <!-- Generate OTP Button -->
+                    <div class="col-md-6 text-center mt-4 mb-4">
+                        <label></label>
+                        <button type="button" class="btn btn-success mt-2" id="generateOtpBtn">Generate OTP</button>
+                    </div>
+                    
+                    <!-- OTP Display and Verification Section -->
+                    <div id="otpSection" class="col-md-12 mt-5 mb-3 hidden">
+                        <p>Enter OTP:</p>
+                        <input type="text" id="otpInput" maxlength="6" class="form-control" placeholder="Enter OTP">
+                        <button type="button" class="btn btn-primary mt-3" id="verifyOtpBtn">Verify OTP</button>
+                        <p id="otpMessage" class="error"></p>
+                    </div>
+                    
+                    <!-- Password Fields (Initially Hidden) -->
+                    <form action="/edit_password/<%=customer.customer_id%>" method="post">
+                        <div id="passwordFields" class="hidden">
+                            <div class="mb-3">
+                                <label>Password:</label>
+                                <input type="password" name="customer_password" class="form-control" id="password" oninput="checkPasswordMatch()">
+                            </div>
+                            <div class="mb-3">
+                                <label>Confirm Password:</label>
+                                <input type="password" class="form-control" id="confirmPassword" oninput="checkPasswordMatch()">
+                                <p id="message"></p> 
+                            </div>
+                            <button class="btn btn-primary" id="submitButton" disabled>Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+            
+    
+<%- include('footer.ejs'); %>

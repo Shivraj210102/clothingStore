@@ -1,0 +1,28 @@
+<%- include('navbar.ejs') %> 
+
+<div class="container mt-5">
+    <h2 class="text-center">Contact Form Submissions</h2>
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <% for(var i=0; i<contact.length; i++){%>
+        <tbody>
+            <td><%=i+1%></td>
+            <td><%=contact[i].name%></td>
+            <td><%=contact[i].email%></td>
+            <td><%=contact[i].message%></td>
+            <td><%=contact[i].created_at%></td>
+        </tbody>
+        <% } %>
+    </table>
+</div>
+
+
+<%- include('footer.ejs') %> 

@@ -1,0 +1,112 @@
+<%- include('navbar.ejs'); %>
+  <div class="container mt-5">
+    <!-- Shopping Cart Header -->
+    <h1 class="text-center mb-4">Shopping Cart</h1>
+
+    <!-- Shopping Cart Table -->
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th >Product</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Subtotal</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Cart Item 1 -->
+         <%
+          var sum = 0;
+          for(var i=0;i<carts.length;i++){ 
+         %>
+            <tr>
+            <td class="p-0 m-0">
+                <img src="/uploads/<%=carts[i].product_image1%>" class="img-thumbnail" style="height: 100px;width: 100px;" alt="product 1">
+                &nbsp; &nbsp;<span class="fs-4 lh-sm"><%=carts[i].product_name%></span>
+                &nbsp; &nbsp;<span class="fs-6">Size : <%=carts[i].product_size%></span>
+                &nbsp; &nbsp;<span class="fs-6">Color : <%=carts[i].product_colors%></span>
+            </td>
+            <td class="text-center"> &#8377; <span id="product_rate<%=carts[i].cart_id%>"><%=carts[i].product_price%></span></td>
+            <td>
+                <!-- Quantity input with increment and decrement buttons -->
+                <div class="quantity-column">
+                    <button class="btn btn-dark" type="button" onclick="decrease_qty('<%=carts[i].cart_id%>')">-</button>
+                        <input type="number" id="qty_input<%=carts[i].cart_id%>" disabled value="<%=carts[i].qty%>" min="1" class="form-control">
+                    <button class="btn btn-dark" type="button" onclick="increase_qty('<%=carts[i].cart_id %>')">+</button>
+                </div>
+            </td>
+            <td> &#8377; <span id="product_total<%=carts[i].cart_id%>"><%=carts[i].product_price * carts[i].qty %></span></td>
+            <td>
+              <a href="/cart_deleted/<%=carts[i].cart_id%>">
+                <button class="btn btn-danger btn-sm">Remove</button>
+              </a>
+            </td>
+            </tr>
+        <%
+            sum = sum + (carts[i].product_price * carts[i].qty);
+          } 
+        %>
+      </tbody>
+    </table>
+
+    <!-- Total and Checkout -->
+    <div class="d-flex justify-content-end">
+      <h5 class="me-3">Total: <span id="cart-total">&#8377; <%=sum%></span></h5>
+      <a href="/checkout">
+        <button class="btn btn-success">Checkout</button>
+      </a>
+    </div>
+  </div>
+
+<script>
+  
+    function increase_qty(cart_id){
+        var elmt = document.getElementById("qty_input"+cart_id);
+        elmt.value = Number(elmt.value)+1;
+        var qty = elmt.value;
+        var rate = document.getElementById("product_rate"+cart_id).innerHTML;
+        var total = rate*qty;
+        document.getElementById("product_total"+cart_id).innerHTML = total;
+
+        updateCartTotal();
+        $.ajax({
+          "url":"/increace_qty_in_backend",
+          "data":{"cart_id":cart_id},
+          "type":"post",
+        }).done(function(res){
+          console.log(res);
+        })
+    }
+    function decrease_qty(cart_id){
+        var elmt = document.getElementById("qty_input"+cart_id);
+        if(Number(elmt.value) > 1)
+        {
+          elmt.value = Number(elmt.value)-1;
+          var qty = elmt.value;
+          var rate = document.getElementById("product_rate"+cart_id).innerHTML;
+          var total = rate*(qty/1);
+          document.getElementById("product_total"+cart_id).innerHTML = total;
+
+          updateCartTotal();
+          $.ajax({
+          "url":"/decrease_qty_in_backend",
+          "data":{"cart_id":cart_id},
+          "type":"post",
+        }).done(function(res){
+          console.log(res);
+        })
+        }
+    }
+     function updateCartTotal() {
+    let total = 0;
+    const totalElements = document.querySelectorAll("[id^='product_total']");
+    totalElements.forEach(el => {
+      total += parseFloat(el.innerText);
+    });
+    document.getElementById("cart-total").innerHTML = `&#8377; ${total}`;
+  }
+</script>
+
+
+<%- include('footer.ejs'); %>

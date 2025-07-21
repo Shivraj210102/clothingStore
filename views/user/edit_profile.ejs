@@ -1,0 +1,77 @@
+<%- include("navbar.ejs"); %>
+
+
+
+
+<!-- Edit Profile Section -->
+<div class="container my-5">
+    <div class="row text-center bg-warning mb-3 p-3">
+        <h2>Edit Profile</h2>
+        <p class="text-muted">Update your personal information</p>
+    </div>
+    <!-- Profile Form -->
+    <form action="/update_profile/<%=customer.customer_id%>" method="post" enctype="multipart/form-data">
+        <!-- Personal Information -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="customer_name" class="form-control" placeholder="John" value="<%=customer.customer_name%>">
+            </div>
+            <div class="col-md-6">
+                <label>Profile Image</label>
+                <input type="file" name="customer_image" class="form-control">
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="customer_email" class="form-control" placeholder="Enter Email" value="<%=customer.customer_email%>">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone Number</label>
+            <input type="phone" name="customer_mobile" class="form-control" placeholder="Enter Phone" value="<%=customer.customer_mobile%>">
+        </div>
+
+        <!-- Address Information -->
+         <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">State</label>
+                <input type="text" name="customer_state" class="form-control" placeholder="State" value="<%=customer.customer_state%>">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">District</label>
+                <input type="text" name="customer_district" class="form-control" placeholder="District" value="<%=customer.customer_district%>">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" name="customer_city" class="form-control" placeholder="City" value="<%=customer.customer_city%>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Area</label>
+                <input type="text" name="customer_area" class="form-control" placeholder="Area" value="<%=customer.customer_area%>">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Landmark</label>
+                <input type="text" name="customer_landmark" class="form-control" placeholder="Landmark" value="<%=customer.customer_landmark%>">
+            </div>
+            <div class="col-md-6">
+                <label for="zip" class="form-label">Zip Code</label>
+                <input type="text" name="customer_pincode" class="form-control" placeholder="Pincode" value="<%=customer.customer_pincode%>">
+            </div>
+        </div>
+
+         <div class="row text-center">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="/profile" class="btn btn-secondary ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+
+<%- include("footer.ejs"); %>

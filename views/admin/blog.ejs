@@ -1,0 +1,57 @@
+<%- include('navbar.ejs') %>
+<div class="container_fluid bg-white p-3 shadow-lg">
+   <form action="/admin/save_blog" method="post" enctype="multipart/form-data">
+      <div class="row">
+         <div class="col-md-12 text-center">
+            <h3>※ Blogs  Details ※</h3>
+            <hr>
+         </div>
+         <div class="col-md-6 mt-3">
+            <label>Blog Image</label>
+            <input type="file" name="blog_image" class="form-control">
+         </div>
+         <div class="col-md-6 mt-3">
+            <label>Blog Heading</label>
+            <input type="text" name="blog_heading" class="form-control">
+         </div>
+         <div class="col-md-12 mt-3">
+            <label>Blog Details</label>
+            <textarea name="blog_details" id="editor"></textarea>
+         </div>
+         <div class="mt-5 col-md-12 text-center">
+            <button class="btn btn-md btn-outline-info" >Save Details</button>
+         </div>
+      </div>
+   </form>
+</div>
+
+<div class="container-fluid bg-white p-3 shadow-lg mt-5">
+   <div class="row">
+       <div class="col-md-12">
+           <table class="table table-light table-hover table-bordered">
+               <tr class="text-center">
+                   <th>Status</th>
+                   <th>SN</th>
+                   <th>Blog Heading</th>
+                   <th>Blog Details</th>                   
+                   <th>Blog Image</th>
+               </tr>
+               
+               <% for(var i=0; i<blog.length; i++){ %>
+                   <tr class="text-center">
+                       <td style="white-space: nowrap;">
+                           <a href="/admin/edit_blog/<%=blog[i].blog_id%>"><button class="btn btn-outline-success"><i class="fa fa-edit"></i></button></a>
+
+                           <a href="/admin/delete_blog/<%=blog[i].blog_id%>"><button class="btn btn-outline-danger"><i class="fa fa-trash"></i></button></a>
+                       </td>
+                       <td><%=i+1%></td>
+                       <td><%=blog[i].blog_heading%></td>
+                       <td><%=blog[i].blog_details%></td>
+                       <td><img src="/uploads/<%=blog[i].blog_image%>" class="w-100 img-thumbnail"></td>
+                   </tr>
+               <% } %>
+           </table>
+       </div>
+   </div>
+</div>
+<%- include('footer.ejs') %>

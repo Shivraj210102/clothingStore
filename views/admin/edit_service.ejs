@@ -1,0 +1,27 @@
+<%- include('navbar.ejs') %>
+<form action="/admin/update_service/<%=data.service_id%>" method="post">
+    <div class="container bg-white p-4 border shadow-lg">
+    <div class="row">
+       <div class="col-md-12 text-center">
+        <h3>Update Service  Details</h3>
+        <hr>
+       </div>
+       <div class="mt-3 col-md-6">
+        Service Font
+       <input type="text" name="service_font" value="<%=data.service_font%>" class="form-control"/>
+      </div>
+       <div class="mt-3 col-md-6">
+         Service title
+        <input type="text" name="service_title" value="<%=data.service_title%>" class="form-control"/>
+       </div>
+       <div class="mt-3 col-md-12">
+         Service Details
+        <textarea name="service_details"  class="form-control"><%=data.service_details%></textarea>
+       </div>
+    <div class="col-md-12 text-center mt-3">
+     <button  class="btn btn-primary">Update Slider</button>
+    </div>
+
+</div>
+</form> 
+<%- include('footer.ejs') %>

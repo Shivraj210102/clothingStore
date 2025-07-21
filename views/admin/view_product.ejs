@@ -1,0 +1,32 @@
+<%- include('navbar.ejs') %>
+<div class="container bg-white p-4 border shadow-lg">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h3>※ Product List ※</h3>
+            <hr>
+        </div>
+        <div class="col-md-3 mb-3">
+            <small>Product Name</small>
+            <h4 class="pl-3"><%=product_info.product_name%></h4>
+        </div>
+        <div class="col-md-3 mb-3">
+            <small>Product Company</small>
+            <h4 class="pl-3"><%=product_info.product_company%></h4>
+        </div>
+        <div class="col-md-3 mb-3">
+            <small>Product Colors</small>
+            <h4 class="pl-3"><%=product_info.product_colors%></h4>
+        </div>
+        <div class="col-md-3 mb-3">
+            <small>Product Lable</small>
+            <h4 class="pl-3"><%=product_info.product_label%></h4>
+        </div>
+        <% for(i=0;i<pricing.length;i++){%>
+            <div class="col-md-3 mb-3">
+                <small>Size - <%=pricing[i].product_size%></small>
+                <h4 class="pl-3">&#8377; <%=pricing[i].product_price%> <small> <del> &#8377; <%=pricing[i].product_duplicate_price%> </del></small> </h4>
+            </div>
+        <% } %>
+    </div>
+</div>
+<%- include('footer.ejs') %>

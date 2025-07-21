@@ -1,0 +1,94 @@
+<%- include('navbar.ejs') %>
+
+
+    <section id="product-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-end fs-1 text-secondary">Product Information</h2>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-3">
+            <div class="row d-flex justify-content-center rounded">
+                <div class="col-md-1 p-0">
+                    <img src="/uploads/<%=product.product_image1%>" onclick="img_main.src = this.src" class="rounded img-thumbnail mt-2" width="100px" alt="">
+                    <img src="/uploads/<%=product.product_image2%>" onclick="img_main.src = this.src" class="rounded img-thumbnail mt-2" width="100px" alt="">
+                    <% if(product.product_image3){ %>
+                    <img src="/uploads/<%=product.product_image3%>" onclick="img_main.src = this.src" class="rounded img-thumbnail mt-2" width="100px" alt="">
+                    <% } %>
+                    <% if(product.product_image4){ %>
+                        <img src="/uploads/<%=product.product_image4%>" onclick="img_main.src = this.src" class="rounded img-thumbnail mt-2" width="100px" alt="">
+                    <% } %>
+                </div>
+                <div class="col-md-4">
+                    <img src="/uploads/<%=product.product_image1%>" id="img_main" class="img-fluid m-5 shadow-lg" style="cursor: pointer;" alt="">
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-6 m-0 p-0">
+                    <button class="btn btn-dark btn-sm rounded-pill"> <%=product.product_label%> </button>
+                    <h1 class="mt-3"><%=product.product_name%></h1>
+                    Colors &nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;<%=product.product_colors%><br>
+                    Brand  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <%=product.product_company%><br><br>
+                    Details &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; <%-product.product_details%>
+
+                    <h4 id="product_price">
+                        <% 
+                        var active = 0;
+                        var active_id = 0;
+                        var cart_id; 
+                        for(var i=0; i<product_pricing.length; i++) { %>
+                            <% if(product_pricing[i].product_price > 0) { 
+                                active == i; 
+                                active_id = product_pricing[i].product_pricing_id;
+                                cart_id = product_pricing[i].cart_id;
+                        %>
+                                price : &#8377;<%=product_pricing[i].product_price%>/- &nbsp;&nbsp;
+                                <small><del>&#8377; <%=product_pricing[i].product_duplicate_price%></del></small>
+                            <% break; } %>
+                        <% } %>
+                    </h4>
+                    <% for(var i=0; i<product_pricing.length; i++) { %>
+                        <% if(product_pricing[i].product_price > 0) { %>
+                            <button class="btn <%=(active != i) ? 'btn-outline-dark' : 'active_btn' %> rounded-pill m-2 size_price" 
+                                onclick="setPrice('<%=product_pricing[i].product_price%>',this,'<%=product_pricing[i].product_duplicate_price%>','<%=product_pricing[i].product_pricing_id%>','<%=product_pricing[i].cart_id%>')"> <%=product_pricing[i].product_size%> <%=product_pricing[i].cart_id%>  </button>  
+                        <% } %>
+                    <% } %>
+                    <br><br>
+                    <div class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover disabled" data-bs-content="This Order Add To Card">
+                        <button type="button" onclick="add_to_cart()" id="add_to_cart_btn" class="rounded btn btn-dark" ><i class="fa fa-shopping-cart"></i> &nbsp;Add To Card</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        var active_pricing_id = '<%=active_id%>';
+        function setPrice(price,elms,duplicate_price,pricing_id,cart_id) {
+            active_pricing_id = pricing_id;
+            document.getElementById("product_price").innerHTML = `Price: &#8377;` + price + `&nbsp;&nbsp;<small><del>${duplicate_price}</del></small>`;
+            $(".size_price").addClass("btn-outline-dark");
+            $("size_price").removeClass("active_btn");
+            elms.classList.remove("btn-outline-dark");
+            elms.classList.add("active_btn");
+            
+            if(cart_id)
+            {
+                $("#add_to_cart_btn").attr("disabled","ture");
+            }
+            else
+            {
+                $("#add_to_cart_btn").removeAttr("disabled");
+            }
+        }
+    </script>
+    <script>
+        function add_to_cart(){
+            // alert(active_pricing_id);
+            // alert('<%=product.product_id%>');
+            url = `/add_to_cart/<%=product.product_id%>/` + active_pricing_id;
+            location.href = url;
+        }
+    </script>
+  <%- include('footer.ejs') %>

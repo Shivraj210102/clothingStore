@@ -1,0 +1,127 @@
+<%- include('navbar.ejs') %>
+ <section class="site-banner jarallax min-height300 padding-large" style="background: url(images/hero-image.jpg) no-repeat; background-position: top;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="page-title">Shop page</h1>
+            <div class="breadcrumbs">
+              <span class="item">
+                <a href="/">Home /</a>
+              </span>
+              <span class="item">Shop</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="shopify-grid padding-large">
+      <div class="container">
+        <div class="row">
+
+          <section id="selling-products" class="col-md-9 product-store">
+            <div class="container">
+              <ul class="tabs list-unstyled">
+                <a href="/shop"><li class="active tab">All</li></a>
+                <% for(i=0;i<category.length;i++){%>
+                  <li  class="tab"><a href="/shop?category_id=<%=category[i].category_id%>"><%=category[i].category_name%></a></li>
+                <% } %>
+                <!-- <li data-tab-target="#tshirts" class="tab">Tshirts</li> -->
+              </ul>
+              <div class="tab-content">
+                <div id="all">
+                  <div class="row d-flex flex-wrap">
+                    <% for(i=0;i<product.length;i++){%>
+                    <div class="product-item col-lg-4 col-md-6 col-sm-6">
+                      <div class="image-holder">
+                        <img src="/uploads/<%=product[i].product_image1%>" alt="Books" class="product-image">
+                      </div>
+                      <a href="/product_info/<%=product[i].product_id%>">
+                        <!-- <div class="cart-concern">
+                          <div class="cart-button d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn-wrap cart-link d-flex align-items-center">add to cart <i class="icon icon-arrow-io"></i>
+                            </button>
+                            <button type="button" class="view-btn tooltip
+                                d-flex">
+                              <i class="icon icon-screen-full"></i>
+                              <span class="tooltip-text">Quick view</span>
+                            </button>
+                            <button type="button" class="wishlist-btn">
+                              <i class="icon icon-heart"></i>
+                            </button>
+                          </div>
+                        </div> -->
+                      
+                      <div class="product-detail">
+                        <h3 class="product-title">
+                          <a href="/product_info/<%=product[i].product_id%>"><%=product[i].product_name%></a>
+                        </h3>
+                        <div class="item-price text-primary">&#8377; <%=product[i].price%> 
+                          <small><del>&nbsp;&#8377; <%=product[i].duplicate_price%>&nbsp;</del></small>
+                        </div>
+                      </div>
+                      </a>
+                    </div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+              <nav class="navigation paging-navigation text-center padding-medium" role="navigation">
+                <div class="pagination loop-pagination d-flex justify-content-center">
+                  <a href="#" class="pagination-arrow d-flex align-items-center">
+                    <i class="icon icon-arrow-left"></i>
+                  </a>
+                  <% for(var i=0;i<total_page;i++){%> 
+                    <a href="?page=<%=i+1%>">
+                     <span aria-current="page" class="page-numbers current"><%=i+1%></span>
+                    </a>
+                  <% } %>
+                  <!-- <a class="page-numbers" href="#">2</a>
+                  <a class="page-numbers" href="#">3</a> -->
+                  <a href="#" class="pagination-arrow d-flex align-items-center">
+                    <i class="icon icon-arrow-right"></i>
+                  </a>
+                </div>
+              </nav>
+            </div>
+          </section>
+
+          <aside class="col-md-3">
+            <div class="sidebar">
+              <div class="widgets widget-menu">
+                <div class="widget-search-bar">
+                  <form action="/shop" role="search" method="get" class="d-flex">
+                    <input class="search-field" placeholder="Search" type="text" name="search">
+                    <button class="btn btn-dark"><i class="icon icon-search"></i></button>
+                  </form>
+                </div> 
+              </div>
+              <div class="widgets widget-product-tags">
+                <h5 class="widget-title">Colors</h5>
+                <ul class="product-tags sidebar-list list-unstyled">
+                  <a href="/shop"><li class="active tab">All Colors</li></a>
+                  <% for(i=0;i<colors.length;i++){%> 
+                    <li class="tags-item">
+                      <a href="/shop?colors=<%=colors[i].product_colors%>"><%=colors[i].product_colors%></a>
+                    </li>
+                  <% } %>
+                </ul>
+              </div>
+              <div class="widgets widget-product-brands">
+                <h5 class="widget-title">Brands</h5>
+                <ul class="product-tags sidebar-list list-unstyled">
+                  <a href="/shop"><li class="active tab">All Brands</li></a>
+                  <% for(i=0;i<companies.length;i++){%>
+                  <li class="tags-item">
+                    <a href="/shop?company=<%=companies[i].product_company%>"><%=companies[i].product_company%></a>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </aside>
+          
+        </div>        
+      </div>      
+    </div>
+<%- include('footer.ejs') %>
